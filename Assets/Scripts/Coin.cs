@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Coin : MonoBehaviour {
-	
+
 	[SerializeField]
 	private float rotateSpeed = 1.0f; // In rotations per second
 
@@ -10,16 +10,14 @@ public class Coin : MonoBehaviour {
 	private float floatSpeed = 0.5f; // In cycles (up and down) per second
 
 	[SerializeField]
-	private float movementDistance = 0.5f; // The maximum distance the coin can move up and down
+	private float movementDistance = 0.5f; // The max distance the coin can move up and down
 
 	private float startingY;
 	private bool isMovingUp = true;
-	
-	void OnTriggerEnter(Collider collider)
-	{
-		if (collider.gameObject.tag == "Player")
-		{
-			Pickup();
+
+	void OnTriggerEnter(Collider collider) {
+		if (collider.gameObject.tag == "Player") {
+			Pickup ();
 		}
 	}
 
@@ -34,33 +32,25 @@ public class Coin : MonoBehaviour {
 		Float ();
 	}
 
-	private void Pickup()
-	{
+	private void Pickup() {
 		GameManager.Instance.NumCoins++;
 		Destroy (gameObject);
 	}
 
-	private void Spin()
-	{
-		transform.Rotate (transform.up, 360 * rotateSpeed * Time.deltaTime);
+	private void Spin() {
+		transform.Rotate (transform.up, Time.deltaTime * rotateSpeed * 360);
 	}
 
-	private void Float()
-	{
+	private void Float() {
 		float newY = transform.position.y + (isMovingUp ? 1 : -1) * 2 * movementDistance * floatSpeed * Time.deltaTime;
-		
-		if (newY > startingY + movementDistance)
-		{
+		if (newY > startingY + movementDistance) {
 			newY = startingY + movementDistance;
 			isMovingUp = false;
-		}
-		else if (newY < startingY)
-		{
+		} else if (newY < startingY) {
 			newY = startingY;
 			isMovingUp = true;
 		}
-		
-		transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+		transform.position = new Vector3 (transform.position.x, newY, transform.position.z);
 	}
 
 }

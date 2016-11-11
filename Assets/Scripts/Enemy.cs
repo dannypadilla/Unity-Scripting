@@ -12,9 +12,6 @@ public class Enemy : MonoBehaviour {
 	[SerializeField]
 	private float meshRadius = 1f; // In units
 
-	[SerializeField]
-	private Animation animationComponent;
-
 	private IEnumerator turnTowardsPlayerCoroutine;
 	private IEnumerator moveTowardsPlayerCoroutine;
 
@@ -22,7 +19,7 @@ public class Enemy : MonoBehaviour {
 
 	void OnTriggerEnter(Collider collider)
 	{
-		if (collider.gameObject.tag == "Player" && !isDead)
+		if (collider.gameObject.tag == "Player")
 		{
 			float playerDistance = Vector3.Distance(collider.transform.position, transform.position);
 
@@ -52,21 +49,14 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
-	void OnDeath()
-	{
-		if (isDead)
-		{
+	void OnDeath() {
+		if(isDead) {
 			return;
 		}
 
 		isDead = true;
 
-		animationComponent.Play ("Death");
-
-		StopCoroutine (turnTowardsPlayerCoroutine);
-		StopCoroutine (moveTowardsPlayerCoroutine);
-
-		Destroy (gameObject, animationComponent["Death"].length);
+		Destroy (gameObject);
 	}
 
 	private IEnumerator TurnTowardsPlayer(Transform player)
